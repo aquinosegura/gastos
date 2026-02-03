@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gastos-v1';
+const CACHE_NAME = 'gastos-v2';
 const ASSETS = [
     './',
     './index.html',
@@ -22,3 +22,4 @@ self.addEventListener('fetch', (e) => {
         caches.match(e.request).then((response) => response || fetch(e.request))
     );
 });
+
