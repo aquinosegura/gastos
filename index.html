@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Gastos</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1 style="text-align: center; font-size: 2.5rem; margin-bottom: 0.5rem">💸</h1>
+    <h1>Control de Gastos Amochito</h1>
+
+    <form onsubmit="return false;">
+      <input id="email" placeholder="Email" type="email" autocomplete="email">
+      <input id="password" type="password" placeholder="Contraseña">
+      <button id="login">Iniciar Sesión</button>
+      <button id="register">Crear Cuenta</button>
+    </form>
+  </div>
+
+  <script type="module">
+    import { login as loginUser, register as registerUser } from "./auth.js";
+
+    // Toast Configuration
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      background: '#1e293b',
+      color: '#fff'
+    });
+
+    // Select elements explicitly to be safe, though IDs work
+    const loginBtn = document.getElementById("login");
+    const registerBtn = document.getElementById("register");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+
+    loginBtn.onclick = async () => {
+      if (!emailInput.value || !passwordInput.value) {
+        Toast.fire({ icon: 'warning', title: 'Completa todos los campos' });
+        return;
+      }
+      try {
+        await loginUser(emailInput.value, passwordInput.value);
+        location.href = "dashboard.html";
+      } catch (e) {
+        Toast.fire({ icon: 'error', title: e.message });
+      }
+    };
+
+    registerBtn.onclick = async () => {
+      if (!emailInput.value || !passwordInput.value) {
+        Toast.fire({ icon: 'warning', title: 'Completa todos los campos' });
+        return;
+      }
+      try {
+        await registerUser(emailInput.value, passwordInput.value);
+        Toast.fire({ icon: 'success', title: 'Cuenta creada, inicia sesión' });
+      } catch (e) {
+        Toast.fire({ icon: 'error', title: e.message });
+      }
+    };
+
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js')
+        .then(() => console.log('SW Registered'))
+        .catch(err => console.error('SW Error:', err));
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Gastos</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+      <h2 style="margin:0">Mis Gastos</h2>
+      <span id="logout" style="cursor: pointer; color: var(--danger); font-size: 0.9rem;">Salir</span>
+    </header>
+
+    <div
+      style="background: var(--bg-dark); padding: 1.5rem; border-radius: var(--radius); text-align: center; margin-bottom: 2rem; border: 1px solid var(--border);">
+      <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">Saldo Disponible</p>
+      <h1 id="total" style="font-size: 2.5rem; margin: 0; color: var(--primary);">$0.00</h1>
+      <button id="btn-ingreso" class="btn-secondary"
+        style="width: auto; margin-top: 1rem; font-size: 0.9rem; padding: 6px 12px;">+ Ingresar Dinero</button>
+    </div>
+
+    <div class="filtros">
+      <button data-filtro="dia">Hoy</button>
+      <button data-filtro="semana">Semana</button>
+      <button data-filtro="mes">Mes</button>
+    </div>
+
+    <div class="filtros-tipo">
+      <button data-tipo="todos" class="active">Todos</button>
+      <button data-tipo="ingreso">Ingresos</button>
+      <button data-tipo="gasto">Gastos</button>
+    </div>
+
+    <form id="form">
+      <input id="descripcion" placeholder="Descripción" required autocomplete="off">
+      <div style="display: flex; gap: 0.5rem;">
+        <input id="monto" type="number" placeholder="Monto" required style="width: 140px;">
+        <button id="btn-action" style="width: auto; flex: 1;">Agregar Gasto</button>
+        <button id="btn-cancel" type="button"
+          style="width: auto; background: var(--text-secondary); display: none;">Cancelar</button>
+      </div>
+    </form>
+
+    <ul id="lista"></ul>
+  </div>
+
+  <script type="module" src="dashboard.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+  </script>
+</body>
+
+</html>
